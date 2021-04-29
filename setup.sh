@@ -262,25 +262,30 @@ conn roadwarrior
   fragmentation=yes
   forceencaps=yes
 
-  # CNSA/RFC 6379 Suite B (https://wiki.strongswan.org/projects/strongswan/wiki/IKEv2CipherSuites)
-  ike=aes256gcm16-prfsha384-ecp384!
-  esp=aes256gcm16-ecp384!
-
   dpdaction=clear
   dpddelay=900s
   rekey=no
+  
   left=%any
   leftid=@${VPNHOST}
   leftcert=cert.pem
   leftsendcert=always
   leftsubnet=0.0.0.0/0
+  
   right=%any
   rightid=%any
   rightauth=eap-mschapv2
-  eap_identity=%any
   rightdns=${VPNDNS}
   rightsourceip=${VPNIPPOOL}
   rightsendcert=never
+  
+  eap_identity=%any
+  
+  
+  # CNSA/RFC 6379 Suite B (https://wiki.strongswan.org/projects/strongswan/wiki/IKEv2CipherSuites)
+  ike=aes128gcm16-prfsha256-ecp256,aes128-sha256-ecp256,aes256-sha384-ecp384,chacha20poly1305-sha512-curve25519-prfsha512,aes256gcm16-sha384-prfsha384-ecp384,aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024!
+  esp=aes128gcm16-ecp256,aes128gmac-ecp256,aes256gmac-ecp384,chacha20poly1305-sha512,aes256gcm16-ecp384,aes256-sha256,aes256-sha1,3des-sha1!
+  
 " > /etc/ipsec.conf
 
 echo "${VPNHOST} : RSA \"privkey.pem\"
